@@ -10,13 +10,13 @@
 </head>
 <body>
     <header th:fragment="commonHeader" class="header">
-        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-            <span class="navbar-brand mb-0 h1" href="#">PMS</span>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top mr-0 mr-md-2">
+            <span class="navbar-brand mb-0 h3">PMS</span>
+            <button sec:authorize="isAuthenticated()"  class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div sec:authorize="isAuthenticated()" class="collapse navbar-collapse" id="navbarCollapse">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto h5">
                     <li class="nav-item active">
                         <a class="nav-link" th:href="@{/project}">Project</a>
                     </li>
