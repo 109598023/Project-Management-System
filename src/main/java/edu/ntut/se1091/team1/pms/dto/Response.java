@@ -1,4 +1,4 @@
-package edu.ntut.se1091.team1.pms.web.dto;
+package edu.ntut.se1091.team1.pms.dto;
 
 import org.springframework.http.HttpStatus;
 

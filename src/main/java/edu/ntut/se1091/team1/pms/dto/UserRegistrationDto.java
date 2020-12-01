@@ -1,4 +1,4 @@
-package edu.ntut.se1091.team1.pms.web.dto;
+package edu.ntut.se1091.team1.pms.dto;
 
 public class UserRegistrationDto {
 
@@ -7,7 +7,6 @@ public class UserRegistrationDto {
     private String password;
 
     public UserRegistrationDto(){
-
     }
 
     public UserRegistrationDto(String email, String username, String password) {
@@ -41,4 +40,12 @@ public class UserRegistrationDto {
         this.password = password;
     }
 
+    @Override
+    public String toString() {
+        return "UserRegistrationDto{" +
+                "email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
 }
