@@ -1,10 +1,23 @@
-package edu.ntut.se1091.team1.pms.auth;
+package edu.ntut.se1091.team1.pms.dto;
 
-public class AuthRequest {
+public class UserRequest {
+
+    private String email;
 
     private String username;
 
     private String password;
+
+    public UserRequest() {
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public String getUsername() {
         return username;

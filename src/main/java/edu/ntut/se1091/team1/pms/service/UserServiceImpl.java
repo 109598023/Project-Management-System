@@ -1,10 +1,10 @@
 package edu.ntut.se1091.team1.pms.service;
 
+import edu.ntut.se1091.team1.pms.dto.UserRequest;
 import edu.ntut.se1091.team1.pms.exception.ConflictException;
 import edu.ntut.se1091.team1.pms.repository.UserRepository;
 import edu.ntut.se1091.team1.pms.entity.Role;
 import edu.ntut.se1091.team1.pms.entity.User;
-import edu.ntut.se1091.team1.pms.dto.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,16 +32,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User save(UserRegistrationDto registrationDto) {
-        System.out.println(registrationDto.toString());
-        Optional<User> existingUser = userRepository.findByUsernameOrEmail(registrationDto.getUsername(), registrationDto.getEmail());
-        System.out.println(existingUser.isPresent());
+    public User save(UserRequest userRequest) throws ConflictException {
+        Optional<User> existingUser = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
         if (existingUser.isPresent()) {
             throw new ConflictException("The username has been used.");
         }
-
-        User user = new User(registrationDto.getEmail(), registrationDto.getUsername(),
-                passwordEncoder.encode(registrationDto.getPassword()), Arrays.asList(new Role("ROLE_USER")));
+        User user = new User(userRequest.getEmail(), userRequest.getUsername(),
+                passwordEncoder.encode(userRequest.getPassword()), Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
     }
 
