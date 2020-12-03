@@ -1,4 +1,4 @@
-package edu.ntut.se1091.team1.pms.persistence.model;
+package edu.ntut.se1091.team1.pms.entity;
 
 import javax.persistence.*;
 

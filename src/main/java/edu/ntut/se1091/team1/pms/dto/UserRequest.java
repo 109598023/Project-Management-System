@@ -1,28 +1,14 @@
-package edu.ntut.se1091.team1.pms.web.dto;
+package edu.ntut.se1091.team1.pms.dto;
 
-public class UserRegistrationDto {
+public class UserRequest {
 
     private String email;
+
     private String username;
+
     private String password;
 
-    public UserRegistrationDto(){
-
-    }
-
-    public UserRegistrationDto(String email, String username, String password) {
-        super();
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public UserRequest() {
     }
 
     public String getEmail() {
@@ -33,6 +19,14 @@ public class UserRegistrationDto {
         this.email = email;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -40,5 +34,4 @@ public class UserRegistrationDto {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
