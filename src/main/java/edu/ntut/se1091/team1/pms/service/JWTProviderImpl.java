@@ -20,7 +20,7 @@ public class JWTProviderImpl implements JWTProvider {
 
     @Override
     public String generateAccessToken(String subject) {
-        return generateToken(subject, 30, Map.of("tokenType", "ACCESS_TOKEN"));
+        return generateToken(subject, accessTokenExpirationSec, Map.of("tokenType", "ACCESS_TOKEN"));
     }
 
     @Override
