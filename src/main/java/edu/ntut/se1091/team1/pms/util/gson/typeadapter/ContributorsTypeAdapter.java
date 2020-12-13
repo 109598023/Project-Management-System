@@ -20,7 +20,6 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
     @Override
     public void write(JsonWriter writer, List<Contributor> contributors) throws IOException {
         writer.beginObject();
-        writerWeeks(writer, contributors.get(0).getWeeks());
         writerContributorsTotal(writer, contributors);
         writer.name("all").beginArray();
         for (Contributor contributor : contributors) {
@@ -43,8 +42,9 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
 
     private void writerContributorsTotal(JsonWriter writer, List<Contributor> contributors) throws IOException {
         if (contributors.size() > 0) {
+            List<String> weeks = contributors.get(0).getWeeks();
             List<Integer> additionsTotal, deletionsTotal, commitsTotal, additions, deletions, commits;
-            int size = contributors.get(0).getWeeks().size();
+            int size = weeks.size();
             additionsTotal = new ArrayList<>(Collections.nCopies(size, 0));
             deletionsTotal = new ArrayList<>(Collections.nCopies(size, 0));
             commitsTotal = new ArrayList<>(Collections.nCopies(size, 0));
@@ -59,6 +59,7 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
                 }
             }
             writer.name("total").beginObject();
+            writerWeeks(writer, weeks);
             writerAdditions(writer, additionsTotal);
             writerDeletions(writer, deletionsTotal);
             writerCommits(writer, commitsTotal);
@@ -69,14 +70,12 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
     private void writerContributor(JsonWriter writer, Contributor contributor) throws IOException {
         writer.beginObject();
         writer.name("total").value(contributor.getTotal());
-//        writerWeeks(writer, contributor.getWeeks());
+        writerWeeks(writer, contributor.getWeeks());
         writerAdditions(writer, contributor.getAdditions());
         writerDeletions(writer, contributor.getDeletions());
         writerCommits(writer, contributor.getCommits());
         writerAuthor(writer, contributor.getAuthor());
         writer.endObject();
-
-
     }
 
     private Contributor readContributor(JsonReader reader) throws IOException {
