@@ -1,7 +1,6 @@
 package edu.ntut.se1091.team1.pms.controller;
 
-import edu.ntut.se1091.team1.pms.dto.UserRequest;
-import edu.ntut.se1091.team1.pms.entity.User;
+import edu.ntut.se1091.team1.pms.dto.request.UserRequest;
 import edu.ntut.se1091.team1.pms.exception.UnauthorizedException;
 import edu.ntut.se1091.team1.pms.service.JWTProvider;
 import edu.ntut.se1091.team1.pms.service.UserService;
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.Map;
 
 @RestController

@@ -1,6 +1,6 @@
 package edu.ntut.se1091.team1.pms.service;
 
-import edu.ntut.se1091.team1.pms.dto.UserRequest;
+import edu.ntut.se1091.team1.pms.dto.request.UserRequest;
 import edu.ntut.se1091.team1.pms.exception.ConflictException;
 import edu.ntut.se1091.team1.pms.repository.UserRepository;
 import edu.ntut.se1091.team1.pms.entity.Role;
@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService {
         User user = new User(userRequest.getEmail(), userRequest.getUsername(),
                 passwordEncoder.encode(userRequest.getPassword()), Arrays.asList(new Role("ROLE_USER")));
         return userRepository.save(user);
+    }
+
+    @Override
+    public User query(String username) {
+        Optional<User> existingUser = userRepository.findByUsername(username);
+        return existingUser.get();
     }
 
     @Override

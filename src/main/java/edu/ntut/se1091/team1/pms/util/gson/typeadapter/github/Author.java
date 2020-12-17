@@ -6,6 +6,8 @@ public class Author {
 
     private String avatarUrl;
 
+    private String htmlUrl;
+
     public Author() {
     }
 
@@ -25,11 +27,20 @@ public class Author {
         this.avatarUrl = avatarUrl;
     }
 
+    public String getHtmlUrl() {
+        return htmlUrl;
+    }
+
+    public void setHtmlUrl(String htmlUrl) {
+        this.htmlUrl = htmlUrl;
+    }
+
     @Override
     public String toString() {
         return "Author{" +
                 "login='" + login + '\'' +
                 ", avatarUrl='" + avatarUrl + '\'' +
+                ", htmlUrl='" + htmlUrl + '\'' +
                 '}';
     }
 }

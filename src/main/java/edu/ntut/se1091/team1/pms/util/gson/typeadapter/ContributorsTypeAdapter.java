@@ -175,6 +175,7 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
         writer.name("author").beginObject();
         writer.name("login").value(author.getLogin());
         writer.name("avatar_url").value(author.getAvatarUrl());
+        writer.name("html_url").value(author.getAvatarUrl());
         writer.endObject();
     }
 
@@ -189,6 +190,9 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
                 case "avatar_url":
                     author.setAvatarUrl(reader.nextString());
                     break;
+                case "html_url":
+                    author.setHtmlUrl(reader.nextString());
+                    break;
                 default:
                     reader.skipValue();
             }
@@ -197,3 +201,4 @@ public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {
         return author;
     }
 }
+

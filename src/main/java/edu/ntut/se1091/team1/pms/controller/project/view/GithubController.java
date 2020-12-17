@@ -16,7 +16,7 @@ public class GithubController {
     private ContributorsService contributorsService;
 
     @PostMapping("/contributors")
-    public ResponseEntity<String> refreshToken() {
+    public ResponseEntity<String> contributors() {
         return ResponseEntity.ok().body(contributorsService.queryContributors(""));
     }
 }
