@@ -1,8 +1,8 @@
 package edu.ntut.se1091.team1.pms.entity;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "project")
@@ -17,13 +17,18 @@ public class Project {
 
     private String imgUrl;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project")
-    private Collection<Repository> repositories;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "project", orphanRemoval = true)
+    private List<Repository> repositories = new ArrayList<>();
 
     public Project() {
     }
 
-    public Project(String name, String imgUrl, Collection<Repository> repositories) {
+    public Project(String name, String imgUrl) {
+        this.name = name;
+        this.imgUrl = imgUrl;
+    }
+
+    public Project(String name, String imgUrl, List<Repository> repositories) {
         this.name = name;
         this.imgUrl = imgUrl;
         this.repositories = repositories;
@@ -49,8 +54,27 @@ public class Project {
         this.imgUrl = imgUrl;
     }
 
-    public Collection<Repository> getRepositories() {
+    public List<Repository> getRepositories() {
         return repositories;
+    }
+
+    public void setRepositories(List<Repository> repositories) {
+        this.repositories = repositories;
+    }
+
+    public void addRepository(Repository repository) {
+        repository.setProject(this);
+        repositories.add(repository);
+    }
+
+    public void removeRepository(Repository repository) {
+        repositories.remove(repository);
+        repository.setProject(null);
+    }
+
+    public void removeAllRepository() {
+        repositories.forEach(repository -> repository.setProject(null));
+        repositories.clear();
     }
 
     @Override

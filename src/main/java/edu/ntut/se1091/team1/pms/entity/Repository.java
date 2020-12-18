@@ -23,10 +23,9 @@ public class Repository {
     public Repository() {
     }
 
-    public Repository(String type, String url, Project project) {
+    public Repository(String type, String url) {
         this.type = type;
         this.url = url;
-        this.project = project;
     }
 
     public String getType() {

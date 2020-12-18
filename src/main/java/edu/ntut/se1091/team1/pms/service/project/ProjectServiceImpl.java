@@ -1,6 +1,7 @@
 package edu.ntut.se1091.team1.pms.service.project;
 
 import edu.ntut.se1091.team1.pms.dto.request.QueryProjectRequest;
+import edu.ntut.se1091.team1.pms.dto.request.UpdateProjectRequest;
 import edu.ntut.se1091.team1.pms.repository.ProjectPermissionRepository;
 import edu.ntut.se1091.team1.pms.repository.RoleRepository;
 import edu.ntut.se1091.team1.pms.dto.request.AddProjectRequest;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class ProjectServiceImpl implements ProjectService {
@@ -31,10 +33,10 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public ProjectVo save(AddProjectRequest addProjectRequest) {
-        Set<Repository> repositories = new HashSet<>();
-        Project project = new Project(addProjectRequest.getName(), addProjectRequest.getImgUrl(), repositories);
+        List<Repository> repositories = new ArrayList<>();
+        Project project = new Project(addProjectRequest.getName(), addProjectRequest.getImgUrl());
         addProjectRequest.getRepositorys().stream()
-                .forEach(r -> repositories.add(new Repository(r.getType(), r.getUrl(), project)));
+                .forEach(r -> project.addRepository(new Repository(r.getType(), r.getUrl())));
         User user = userService.query("test");
         Project project2 = projectRepository.save(project);
         Role role = roleRepository.findByName("OWNER");
@@ -72,5 +74,23 @@ public class ProjectServiceImpl implements ProjectService {
             projectVo = new ProjectVo(project.getProjectId(), project.getName(), project.getImgUrl(), repositories);
         }
         return projectVo;
+    }
+
+    @Override
+    public ProjectVo update(UpdateProjectRequest updateProjectRequest) {
+        Optional<Project> projectOptional = projectRepository.findById(updateProjectRequest.getId());
+        Project project = projectOptional.get();
+        User user = userService.query(updateProjectRequest.getUsername());
+        ProjectPermission projectPermission = projectPermissionRepository.findByProjectAndUser(project, user);
+        if (projectPermission != null) {
+            project.setName(updateProjectRequest.getName());
+            project.setImgUrl(updateProjectRequest.getImgUrl());
+            project.removeAllRepository();
+            updateProjectRequest.getRepositories().forEach(r -> {
+                project.addRepository(new Repository(r.getType(), r.getUrl()));
+            });
+            projectRepository.save(project);
+        }
+        return new ProjectVo(project.getProjectId(), project.getName(), project.getImgUrl(), project.getRepositories().stream().map(r -> new RepositoryVo(r.getType(), r.getUrl())).collect(Collectors.toList()));
     }
 }
