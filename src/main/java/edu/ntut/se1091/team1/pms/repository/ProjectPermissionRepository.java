@@ -7,13 +7,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProjectPermissionRepository extends JpaRepository<ProjectPermission, Long> {
 
-    ProjectPermission findByProject(Project project);
+    List<ProjectPermission> findByProject(Project project);
 
     List<ProjectPermission> findByUser(User user);
 
-    ProjectPermission findByProjectAndUser(Project project, User user);
+    Optional<ProjectPermission> findByProjectAndUser(Project project, User user);
 }

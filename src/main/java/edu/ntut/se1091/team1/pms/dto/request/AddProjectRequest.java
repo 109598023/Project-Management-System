@@ -8,7 +8,9 @@ public class AddProjectRequest {
 
     private String imgUrl;
 
-    private Collection<RepositoryRequest> repositorys;
+    private Collection<RepositoryRequest> repositories;
+
+    private String username;
 
     public AddProjectRequest() {
     }
@@ -29,20 +31,29 @@ public class AddProjectRequest {
         this.imgUrl = imgUrl;
     }
 
-    public Collection<RepositoryRequest> getRepositorys() {
-        return repositorys;
+    public Collection<RepositoryRequest> getRepositories() {
+        return repositories;
     }
 
-    public void setRepositorys(Collection<RepositoryRequest> repositorys) {
-        this.repositorys = repositorys;
+    public void setRepositories(Collection<RepositoryRequest> repositorys) {
+        this.repositories = repositorys;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
     public String toString() {
-        return "ProjectRequest{" +
+        return "AddProjectRequest{" +
                 "name='" + name + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", repositorys=" + repositorys +
+                ", repositories=" + repositories +
+                ", username='" + username + '\'' +
                 '}';
     }
 }
