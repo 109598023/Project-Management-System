@@ -1,4 +1,4 @@
-package edu.ntut.se1091.team1.pms.dto;
+package edu.ntut.se1091.team1.pms.dto.request;
 
 public class UserRequest {
 

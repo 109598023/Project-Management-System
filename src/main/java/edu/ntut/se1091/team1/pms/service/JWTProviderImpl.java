@@ -14,13 +14,13 @@ public class JWTProviderImpl implements JWTProvider {
 
     private final String tokenKey = "cjZh2yg/xHMoUNiCx2uU+J5oxIkN8NuOICd/4vlj2iQ";
 
-    private final int accessTokenExpirationSec = 3600;
+    private final int accessTokenExpirationSec = 864000;//3600;
 
     private final int refreshTokenExpirationSec = 86400;
 
     @Override
     public String generateAccessToken(String subject) {
-        return generateToken(subject, 30, Map.of("tokenType", "ACCESS_TOKEN"));
+        return generateToken(subject, accessTokenExpirationSec, Map.of("tokenType", "ACCESS_TOKEN"));
     }
 
     @Override

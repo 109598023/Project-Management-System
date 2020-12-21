@@ -1,6 +1,6 @@
 package edu.ntut.se1091.team1.pms.controller;
 
-import edu.ntut.se1091.team1.pms.dto.RefreshTokenRequest;
+import edu.ntut.se1091.team1.pms.dto.request.RefreshTokenRequest;
 import edu.ntut.se1091.team1.pms.exception.UnauthorizedException;
 import edu.ntut.se1091.team1.pms.service.JWTProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +25,7 @@ public class AuthController {
             String username = jwtProvider.getUsernameFromToken(refreshToken);
             String accessToken = jwtProvider.generateAccessToken(username);
             refreshToken = jwtProvider.generateRefreshToken(username);
+
             return ResponseEntity.ok().body(Map.of("accessToken", accessToken, "refreshToken", refreshToken));
         } else {
             throw new UnauthorizedException();

@@ -1,6 +1,6 @@
 package edu.ntut.se1091.team1.pms.service;
 
-import edu.ntut.se1091.team1.pms.dto.UserRequest;
+import edu.ntut.se1091.team1.pms.dto.request.UserRequest;
 import edu.ntut.se1091.team1.pms.exception.ConflictException;
 import edu.ntut.se1091.team1.pms.repository.UserRepository;
 import edu.ntut.se1091.team1.pms.entity.Role;
@@ -13,33 +13,41 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository) {
-        super();
-        this.userRepository = userRepository;
+    @Override
+    public Optional<User> save(UserRequest userRequest) {
+        Optional<User> userOptional = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
+        userOptional.ifPresent(user -> {
+            throw new ConflictException("The username has been used.");
+        });
+        Optional<Role> roleOptional = roleService.queryAndSave("ROLE_USER");
+        if (roleOptional.isPresent()) {
+            User user = new User(userRequest.getEmail(), userRequest.getUsername(),
+                    passwordEncoder.encode(userRequest.getPassword()), List.of(roleOptional.get()));
+            return Optional.of(userRepository.save(user));
+        }
+        return Optional.empty();
     }
 
     @Override
-    public User save(UserRequest userRequest) throws ConflictException {
-        Optional<User> existingUser = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
-        if (existingUser.isPresent()) {
-            throw new ConflictException("The username has been used.");
-        }
-        User user = new User(userRequest.getEmail(), userRequest.getUsername(),
-                passwordEncoder.encode(userRequest.getPassword()), Arrays.asList(new Role("ROLE_USER")));
-        return userRepository.save(user);
+    public Optional<User> query(String username) {
+        return userRepository.findByUsername(username);
     }
 
     @Override
@@ -51,6 +59,11 @@ public class UserServiceImpl implements UserService {
         User user = existingUser.get();
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 mapRolesToAuthorities(user.getRoles()));
+    }
+
+    @Override
+    public List<User> queryAllByUsername(List<String> usernames) {
+        return userRepository.findByUsernameIn(usernames);
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(Collection<Role> roles){
