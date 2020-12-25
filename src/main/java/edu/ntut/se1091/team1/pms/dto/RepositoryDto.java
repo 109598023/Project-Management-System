@@ -1,12 +1,12 @@
-package edu.ntut.se1091.team1.pms.vo;
+package edu.ntut.se1091.team1.pms.dto;
 
-public class RepositoryVo {
+public class RepositoryDto {
 
     private String type;
 
     private String url;
 
-    public RepositoryVo(String type, String url) {
+    public RepositoryDto(String type, String url) {
         this.type = type;
         this.url = url;
     }
@@ -21,7 +21,7 @@ public class RepositoryVo {
 
     @Override
     public String toString() {
-        return "RepositoryVo{" +
+        return "RepositoryDto{" +
                 "type='" + type + '\'' +
                 ", url='" + url + '\'' +
                 '}';

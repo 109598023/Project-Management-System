@@ -51,12 +51,4 @@ public class Repository {
     public void setProject(Project project) {
         this.project = project;
     }
-
-    @Override
-    public String toString() {
-        return "Repository{" +
-                "type='" + type + '\'' +
-                ", url='" + url + '\'' +
-                '}';
-    }
 }

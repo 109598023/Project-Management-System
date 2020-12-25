@@ -12,7 +12,9 @@ public interface UserService extends UserDetailsService {
 
     Optional<User> save(UserRequest userRequest);
 
-    Optional<User> query(String username);
+    Optional<User> queryUsername(String username);
+
+    Optional<User> queryEmail(String email);
 
     List<User> queryAllByUsername(List<String> usernames);
 }

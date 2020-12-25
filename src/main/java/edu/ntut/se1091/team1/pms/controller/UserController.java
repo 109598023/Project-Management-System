@@ -1,10 +1,12 @@
 package edu.ntut.se1091.team1.pms.controller;
 
+import edu.ntut.se1091.team1.pms.dto.request.SignupCheckRequest;
 import edu.ntut.se1091.team1.pms.dto.request.UserRequest;
 import edu.ntut.se1091.team1.pms.exception.UnauthorizedException;
 import edu.ntut.se1091.team1.pms.service.JWTProvider;
 import edu.ntut.se1091.team1.pms.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,4 +53,19 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
+    @PostMapping("/signup_check_username")
+    public ResponseEntity<String> signupCheckUsername(@RequestBody SignupCheckRequest signupCheckRequest) {
+        if (userService.queryUsername(signupCheckRequest.getUsername()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/signup_check_email")
+    public ResponseEntity<String> signupCheckEmail(@RequestBody SignupCheckRequest signupCheckRequest) {
+        if (userService.queryEmail(signupCheckRequest.getEmail()).isPresent()) {
+            return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
+        }
+        return ResponseEntity.ok().build();
+    }
 }

@@ -1,9 +1,8 @@
-package edu.ntut.se1091.team1.pms.vo;
+package edu.ntut.se1091.team1.pms.dto;
 
 import java.util.Collection;
-import java.util.List;
 
-public class ProjectVo {
+public class ProjectDto {
 
     private Long id;
 
@@ -11,17 +10,13 @@ public class ProjectVo {
 
     private String imgUrl;
 
-    private Collection<RepositoryVo> repositorys;
+    private Collection<RepositoryDto> repositories;
 
-    public ProjectVo(Long id, String name, String imgUrl) {
-        this(id, name, imgUrl, List.of());
-    }
-
-    public ProjectVo(Long id, String name, String imgUrl, Collection<RepositoryVo> repositorys) {
+    public ProjectDto(Long id, String name, String imgUrl, Collection<RepositoryDto> repositories) {
         this.id = id;
         this.name = name;
         this.imgUrl = imgUrl;
-        this.repositorys = repositorys;
+        this.repositories = repositories;
     }
 
     public Long getId() {
@@ -36,17 +31,17 @@ public class ProjectVo {
         return imgUrl;
     }
 
-    public Collection<RepositoryVo> getRepositorys() {
-        return repositorys;
+    public Collection<RepositoryDto> getRepositories() {
+        return repositories;
     }
 
     @Override
     public String toString() {
-        return "ProjectVo{" +
+        return "ProjectDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", repositorys=" + repositorys +
+                ", repositories=" + repositories +
                 '}';
     }
 }

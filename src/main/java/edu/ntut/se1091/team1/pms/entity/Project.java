@@ -28,12 +28,6 @@ public class Project {
         this.imgUrl = imgUrl;
     }
 
-    public Project(String name, String imgUrl, List<Repository> repositories) {
-        this.name = name;
-        this.imgUrl = imgUrl;
-        this.repositories = repositories;
-    }
-
     public long getProjectId() {
         return projectId;
     }
@@ -67,23 +61,18 @@ public class Project {
         repositories.add(repository);
     }
 
+    public void addRepositories(List<Repository> repositories) {
+        repositories.forEach(repository -> repository.setProject(this));
+        this.repositories.addAll(repositories);
+    }
+
     public void removeRepository(Repository repository) {
         repositories.remove(repository);
         repository.setProject(null);
     }
 
-    public void removeAllRepository() {
+    public void removeRepositories() {
         repositories.forEach(repository -> repository.setProject(null));
         repositories.clear();
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectId=" + projectId +
-                ", name='" + name + '\'' +
-                ", imgUrl='" + imgUrl + '\'' +
-                ", repositories=" + repositories +
-                '}';
     }
 }
