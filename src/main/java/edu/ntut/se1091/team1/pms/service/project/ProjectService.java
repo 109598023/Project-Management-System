@@ -4,23 +4,23 @@ import edu.ntut.se1091.team1.pms.dto.request.AddProjectRequest;
 import edu.ntut.se1091.team1.pms.dto.request.InviteMembersRequest;
 import edu.ntut.se1091.team1.pms.dto.request.QueryProjectRequest;
 import edu.ntut.se1091.team1.pms.dto.request.UpdateProjectRequest;
-import edu.ntut.se1091.team1.pms.vo.ProjectVo;
-import edu.ntut.se1091.team1.pms.vo.ProjectRoleVo;
+import edu.ntut.se1091.team1.pms.entity.Project;
+import edu.ntut.se1091.team1.pms.entity.ProjectPermission;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface ProjectService {
 
-    Optional<ProjectVo> save(AddProjectRequest addProjectRequest);
+    Optional<Project> save(AddProjectRequest addProjectRequest);
 
-    List<ProjectVo> queryProjectList(QueryProjectRequest queryProjectRequest);
+    List<Project> queryProjectList(QueryProjectRequest queryProjectRequest);
 
-    Optional<ProjectVo> queryProject(QueryProjectRequest queryProjectRequest);
+    Optional<Project> queryProject(QueryProjectRequest queryProjectRequest);
 
-    Optional<ProjectVo> update(UpdateProjectRequest updateProjectRequest);
+    Optional<Project> update(UpdateProjectRequest updateProjectRequest);
 
-    List<ProjectRoleVo> queryProjectRoles(QueryProjectRequest queryProjectRequest);
+    List<ProjectPermission> queryProjectRoles(QueryProjectRequest queryProjectRequest);
 
-    List<ProjectRoleVo> inviteMembers(InviteMembersRequest inviteMembersRequest);
+    List<ProjectPermission> inviteMembers(InviteMembersRequest inviteMembersRequest);
 }

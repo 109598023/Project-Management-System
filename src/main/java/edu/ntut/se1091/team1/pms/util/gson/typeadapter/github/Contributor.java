@@ -19,6 +19,13 @@ public class Contributor {
     public Contributor() {
     }
 
+    public Contributor(List<String> weeks, List<Integer> additions, List<Integer> deletions, List<Integer> commits) {
+        this.weeks = weeks;
+        this.additions = additions;
+        this.deletions = deletions;
+        this.commits = commits;
+    }
+
     public int getTotal() {
         return total;
     }

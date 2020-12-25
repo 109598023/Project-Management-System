@@ -68,7 +68,7 @@ public class UpdateProjectRequest {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", imgUrl='" + imgUrl + '\'' +
-                ", repositorys=" + repositories +
+                ", repositories=" + repositories +
                 ", username='" + username + '\'' +
                 '}';
     }

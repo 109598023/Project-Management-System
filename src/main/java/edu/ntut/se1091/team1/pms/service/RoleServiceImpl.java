@@ -35,13 +35,4 @@ public class RoleServiceImpl  implements RoleService{
         }
         return roleOptional;
     }
-
-    @Override
-    public Optional<Role> update(Role role) {
-        Optional<Role> roleOptional = roleRepository.findByName(role.getName());
-        if (roleOptional.isPresent()) {
-            return Optional.of(roleRepository.save(role));
-        }
-        return Optional.empty();
-    }
 }

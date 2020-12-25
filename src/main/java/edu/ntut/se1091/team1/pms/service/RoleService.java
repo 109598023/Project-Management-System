@@ -11,6 +11,4 @@ public interface RoleService {
     Optional<Role> save(Role role);
 
     Optional<Role> queryAndSave(String name);
-
-    Optional<Role> update(Role role);
 }

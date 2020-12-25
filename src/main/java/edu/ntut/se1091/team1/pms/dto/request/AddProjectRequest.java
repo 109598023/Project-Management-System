@@ -1,6 +1,7 @@
 package edu.ntut.se1091.team1.pms.dto.request;
 
 import java.util.Collection;
+import java.util.List;
 
 public class AddProjectRequest {
 
@@ -8,7 +9,7 @@ public class AddProjectRequest {
 
     private String imgUrl;
 
-    private Collection<RepositoryRequest> repositories;
+    private List<RepositoryRequest> repositories;
 
     private String username;
 
@@ -31,12 +32,12 @@ public class AddProjectRequest {
         this.imgUrl = imgUrl;
     }
 
-    public Collection<RepositoryRequest> getRepositories() {
+    public List<RepositoryRequest> getRepositories() {
         return repositories;
     }
 
-    public void setRepositories(Collection<RepositoryRequest> repositorys) {
-        this.repositories = repositorys;
+    public void setRepositories(List<RepositoryRequest> repositories) {
+        this.repositories = repositories;
     }
 
     public String getUsername() {

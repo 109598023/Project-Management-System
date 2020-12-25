@@ -1,21 +1,10 @@
 package edu.ntut.se1091.team1.pms.dto.request;
 
-public class QueryProjectRequest {
-
-    private Long id;
+public class SignupCheckRequest {
 
     private String username;
 
-    public QueryProjectRequest() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String email;
 
     public String getUsername() {
         return username;
@@ -23,5 +12,13 @@ public class QueryProjectRequest {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
