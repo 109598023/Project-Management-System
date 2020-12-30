@@ -32,14 +32,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Optional<User> save(UserRequest userRequest) {
-        Optional<User> userOptional = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
-        if (userOptional.isPresent()) {
+        List<User> userOptional = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
+        if (!userOptional.isEmpty()) {
             throw new ConflictException("The username has been used.");
         }
         Optional<Role> roleOptional = roleService.queryAndSave("Role_User");
+        System.out.println(roleOptional.get().getName());
         if (roleOptional.isPresent()) {
+
             User user = new User(userRequest.getEmail(), userRequest.getUsername(),
                     passwordEncoder.encode(userRequest.getPassword()), List.of(roleOptional.get()));
+
             return Optional.of(userRepository.save(user));
         }
         return Optional.empty();
