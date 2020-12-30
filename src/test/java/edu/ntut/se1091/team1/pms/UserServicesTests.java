@@ -19,6 +19,7 @@ public class UserServicesTests {
     @BeforeAll
     static void setup(){
     }
+
     @Autowired
     UserService userService;
 

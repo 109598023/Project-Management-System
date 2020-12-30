@@ -5,7 +5,6 @@ import edu.ntut.se1091.team1.pms.exception.ConflictException;
 import edu.ntut.se1091.team1.pms.repository.UserRepository;
 import edu.ntut.se1091.team1.pms.entity.Role;
 import edu.ntut.se1091.team1.pms.entity.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,25 +20,31 @@ import java.util.stream.Collectors;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    @Autowired
-    private RoleService roleService;
+    private final RoleService roleService;
 
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private final BCryptPasswordEncoder passwordEncoder;
+
+
+    public UserServiceImpl(UserRepository userRepository, RoleService roleService, BCryptPasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.roleService = roleService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @Override
     public Optional<User> save(UserRequest userRequest) {
+        if(userRequest.getUsername().isEmpty()||userRequest.getPassword().isEmpty()||userRequest.getEmail().isEmpty()){
+            throw new ConflictException("The username or email or password is empty.");
+        }
         List<User> userOptional = userRepository.findByUsernameOrEmail(userRequest.getUsername(), userRequest.getEmail());
         if (!userOptional.isEmpty()) {
-            throw new ConflictException("The username has been used.");
+            throw new ConflictException("The username or Email has been used.");
         }
         Optional<Role> roleOptional = roleService.queryAndSave("Role_User");
-        System.out.println(roleOptional.get().getName());
         if (roleOptional.isPresent()) {
-
+            //System.out.println(roleOptional.get().getName());
             User user = new User(userRequest.getEmail(), userRequest.getUsername(),
                     passwordEncoder.encode(userRequest.getPassword()), List.of(roleOptional.get()));
 
