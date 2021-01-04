@@ -10,4 +10,6 @@ public interface GithubService {
    String queryContributorsTotal(QueryProjectRequest queryProjectRequest);
 
    String queryPunchCard(QueryProjectRequest queryProjectRequest);
+
+   String queryIssue(QueryProjectRequest queryProjectRequest);
 }

@@ -93,6 +93,25 @@ public class GithubServiceImpl implements GithubService {
         }
     }
 
+    @Override
+    public String queryIssue(QueryProjectRequest queryProjectRequest) {
+        try {
+            HttpClient httpClient = HttpClient.newBuilder()
+                    .version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(10))
+                    .build();
+            HttpRequest request = HttpRequest.newBuilder()
+                    .GET()
+                    .uri(URI.create("https://api.github.com/repos/109598023/Project-Management-System-Backend/issues"))
+                    .timeout(Duration.ofSeconds(10))
+                    .build();
+            HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+            return response.body();
+        } catch (IOException | InterruptedException e) {
+            throw new ForbiddenException();
+        }
+    }
+
     private List<Contributor> queryContributor(QueryProjectRequest queryProjectRequest, TypeAdapter typeAdapter) {
         JsonReader reader = null;
         try {
