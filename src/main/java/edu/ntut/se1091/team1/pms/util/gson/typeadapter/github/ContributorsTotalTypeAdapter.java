@@ -12,7 +12,6 @@ public class ContributorsTotalTypeAdapter  extends ContributorsTypeAdapter {
     @Override
     public void write(JsonWriter writer, List<Contributor> contributors) throws IOException {
         Contributor contributorsTotal = contributorsTotal(contributors);
-        System.out.println(contributorsTotal);
         writer.beginObject();
         writerWeeks(writer, contributorsTotal.getWeeks());
         writerAdditions(writer, contributorsTotal.getAdditions());

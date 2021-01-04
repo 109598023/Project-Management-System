@@ -40,7 +40,6 @@ public class UserServiceImpl implements UserService {
         if (roleOptional.isPresent()) {
             User user = new User(userRequest.getEmail(), userRequest.getUsername(),
                     passwordEncoder.encode(userRequest.getPassword()), List.of(roleOptional.get()));
-            user = userRepository.save(user);
             return Optional.of(userRepository.save(user));
         }
         return Optional.empty();

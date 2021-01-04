@@ -15,6 +15,7 @@ public class Repository {
 
     private String url;
 
+    private String name;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "project_id")
@@ -23,9 +24,14 @@ public class Repository {
     public Repository() {
     }
 
-    public Repository(String type, String url) {
+    public Repository(String type, String url, String name) {
         this.type = type;
         this.url = url;
+        this.name = name;
+    }
+
+    public Long getRepositoryId() {
+        return repositoryId;
     }
 
     public String getType() {
@@ -50,5 +56,13 @@ public class Repository {
 
     public void setProject(Project project) {
         this.project = project;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
