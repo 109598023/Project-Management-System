@@ -4,6 +4,8 @@ public class QueryProjectRequest {
 
     private Long id;
 
+    private Long repositoryId;
+
     private String username;
 
     public QueryProjectRequest() {
@@ -15,6 +17,14 @@ public class QueryProjectRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getRepositoryId() {
+        return repositoryId;
+    }
+
+    public void setRepositoryId(Long repositoryId) {
+        this.repositoryId = repositoryId;
     }
 
     public String getUsername() {

@@ -9,6 +9,7 @@ import edu.ntut.se1091.team1.pms.entity.*;
 import edu.ntut.se1091.team1.pms.repository.ProjectRepository;
 import edu.ntut.se1091.team1.pms.service.RoleService;
 import edu.ntut.se1091.team1.pms.service.UserService;
+import edu.ntut.se1091.team1.pms.util.repository.RepositoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,17 +31,29 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectPermissionRepository projectPermissionRepository;
 
+    @Autowired
+    private RepositoryUrlService repositoryUrlService;
+
     @Override
     public Optional<Project> save(AddProjectRequest addProjectRequest) {
-        Optional<User> userOptional = userService.queryUsername(addProjectRequest.getUsername());
-        if (userOptional.isPresent()) {
+        Optional<User> optionalUser = userService.queryUsername(addProjectRequest.getUsername());
+        if (optionalUser.isPresent()) {
             Project project = new Project(addProjectRequest.getName(), addProjectRequest.getImgUrl());
-            project.addRepositories(addProjectRequest.getRepositories()
-                    .stream().map(r -> new Repository(r.getType(), r.getUrl())).collect(Collectors.toList()));
+            List<Repository> repositories = new ArrayList<>();
+            addProjectRequest.getRepositories().forEach(r -> {
+                RepositoryType type = repositoryUrlService.getUrlType(r.getUrl());
+
+                if (type != RepositoryType.NONE) {
+                    String repositoryName = repositoryUrlService.getName(type, r.getUrl());
+                    repositories.add(new Repository(type.getName(), r.getUrl(), repositoryName));
+                }
+            });
+            project.addRepositories(repositories);
+
             Optional<Role> roleOptional = roleService.queryAndSave("Owner");
             if (roleOptional.isPresent()) {
                 project = projectRepository.save(project);
-                projectPermissionRepository.save(new ProjectPermission(project, userOptional.get(), roleOptional.get()));
+                projectPermissionRepository.save(new ProjectPermission(project, optionalUser.get(), roleOptional.get()));
                 return Optional.of(project);
             }
         }
@@ -86,8 +99,15 @@ public class ProjectServiceImpl implements ProjectService {
                     project.setName(updateProjectRequest.getName());
                     project.setImgUrl(updateProjectRequest.getImgUrl());
                     project.removeRepositories();
-                    project.addRepositories(updateProjectRequest.getRepositories()
-                            .stream().map(r -> new Repository(r.getType(), r.getUrl())).collect(Collectors.toList()));
+                    List<Repository> repositories = new ArrayList<>();
+                    updateProjectRequest.getRepositories().forEach(r -> {
+                        RepositoryType type = repositoryUrlService.getUrlType(r.getUrl());
+                        if (type != RepositoryType.NONE) {
+                            String repositoryName = repositoryUrlService.getName(type, r.getUrl());
+                            repositories.add(new Repository(type.getName(), r.getUrl(), repositoryName));
+                        }
+                    });
+                    project.addRepositories(repositories);
                     return Optional.of(projectRepository.save(project));
                 }
         }

@@ -4,23 +4,19 @@ package edu.ntut.se1091.team1.pms.controller.project;
 import edu.ntut.se1091.team1.pms.dto.ProjectDto;
 import edu.ntut.se1091.team1.pms.dto.ProjectRoleDto;
 import edu.ntut.se1091.team1.pms.dto.RepositoryDto;
-import edu.ntut.se1091.team1.pms.dto.request.AddProjectRequest;
-import edu.ntut.se1091.team1.pms.dto.request.InviteMembersRequest;
-import edu.ntut.se1091.team1.pms.dto.request.QueryProjectRequest;
-import edu.ntut.se1091.team1.pms.dto.request.UpdateProjectRequest;
+import edu.ntut.se1091.team1.pms.dto.request.*;
 import edu.ntut.se1091.team1.pms.entity.Project;
 import edu.ntut.se1091.team1.pms.entity.ProjectPermission;
 import edu.ntut.se1091.team1.pms.exception.BadRequestException;
 import edu.ntut.se1091.team1.pms.exception.ForbiddenException;
 import edu.ntut.se1091.team1.pms.service.JWTProvider;
 import edu.ntut.se1091.team1.pms.service.project.ProjectService;
+import edu.ntut.se1091.team1.pms.service.project.RepositoryUrlService;
+import edu.ntut.se1091.team1.pms.util.repository.RepositoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -35,6 +31,9 @@ public class ProjectController {
 
     @Autowired
     private JWTProvider jwtProvider;
+
+    @Autowired
+    private RepositoryUrlService repositoryUrlService;
 
     @PostMapping("/add_project")
     public ResponseEntity<ProjectDto> addProject(@RequestBody AddProjectRequest addProjectRequest) {
@@ -88,10 +87,16 @@ public class ProjectController {
                 .map(projectPermission -> conversionProjectRoleDto(projectPermission)).collect(Collectors.toList()));
     }
 
+    @PostMapping("/validate_project_url")
+    public ResponseEntity<Boolean> validateProjectUrl(@RequestBody RepositoryRequest repositoryRequest) {
+        return ResponseEntity.ok().body(repositoryUrlService.validateUrl(repositoryRequest.getUrl()));
+    }
+
     private ProjectDto conversionProjectDto(Project project) {
         return new ProjectDto(project.getProjectId(), project.getName(), project.getImgUrl(),
                 project.getRepositories().stream()
-                        .map(r -> new RepositoryDto(r.getType(), r.getUrl())).collect(Collectors.toList()));
+                        .map(r -> new RepositoryDto(r.getRepositoryId(), r.getType(), r.getUrl(), r.getName()))
+                        .collect(Collectors.toList()));
     }
 
     private ProjectRoleDto conversionProjectRoleDto(ProjectPermission projectPermission) {
