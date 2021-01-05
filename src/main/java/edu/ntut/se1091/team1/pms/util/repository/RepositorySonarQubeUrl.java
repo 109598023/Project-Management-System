@@ -3,6 +3,8 @@ package edu.ntut.se1091.team1.pms.util.repository;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,9 +15,17 @@ import java.time.Duration;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class RepositorySonarQubeUrl extends RepositoryUrl {
+public class RepositorySonarQubeUrl implements RepositoryUrl {
 
-    private Pattern pattern = Pattern.compile("(https?://[^/]+)/.*\\?id=(.*)");
+    private static final String IO_EXCEPTION = "IOException";
+
+    private static final String INTERRUPTED_EXCEPTION = "InterruptedException";
+
+    private Logger logger = LoggerFactory.getLogger(RepositorySonarQubeUrl.class);
+
+    private String regex = "(https?://[^/]+)/.*\\?id=(.*)";
+
+    private Pattern pattern = Pattern.compile(regex);
 
     @Override
     public RepositoryType validate(String url) {
@@ -36,8 +46,11 @@ public class RepositorySonarQubeUrl extends RepositoryUrl {
                     return RepositoryType.SONAR_QUBE;
                 }
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.warn(IO_EXCEPTION, e);
+        } catch (InterruptedException e) {
+            logger.warn(INTERRUPTED_EXCEPTION, e);
+            Thread.currentThread().interrupt();
         }
         return RepositoryType.NONE;
     }
@@ -68,8 +81,11 @@ public class RepositorySonarQubeUrl extends RepositoryUrl {
                     }
                 }
             }
-        } catch (IOException | InterruptedException e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            logger.warn(IO_EXCEPTION, e);
+        } catch (InterruptedException e) {
+            logger.warn(INTERRUPTED_EXCEPTION, e);
+            Thread.currentThread().interrupt();
         }
         return "";
     }

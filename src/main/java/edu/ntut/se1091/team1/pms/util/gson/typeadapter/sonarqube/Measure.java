@@ -4,7 +4,7 @@ public class Measure {
 
     private String metric;
 
-    public String value;
+    private String value;
 
     public Measure(String metric, String value) {
         this.metric = metric;

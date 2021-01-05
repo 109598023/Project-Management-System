@@ -12,12 +12,12 @@ import edu.ntut.se1091.team1.pms.exception.ForbiddenException;
 import edu.ntut.se1091.team1.pms.service.JWTProvider;
 import edu.ntut.se1091.team1.pms.service.project.ProjectService;
 import edu.ntut.se1091.team1.pms.service.project.RepositoryUrlService;
-import edu.ntut.se1091.team1.pms.util.repository.RepositoryType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -46,8 +46,12 @@ public class ProjectController {
 
     @PostMapping("/query_project_list")
     public ResponseEntity<List<ProjectDto>> queryProjectList(@RequestBody QueryProjectRequest queryProjectRequest) {
-        return ResponseEntity.ok().body(projectService.queryProjectList(queryProjectRequest)
-                .stream().map(project -> conversionProjectDto(project)).collect(Collectors.toList()));
+        List<ProjectDto> projectDtos = new ArrayList<>();
+        List<Project> projects = projectService.queryProjectList(queryProjectRequest);
+        for (Project project : projects) {
+            projectDtos.add(conversionProjectDto(project));
+        }
+        return ResponseEntity.ok().body(projectDtos);
     }
 
     @PostMapping("/query_project")
@@ -73,8 +77,12 @@ public class ProjectController {
 
     @PostMapping("/query_project_roles")
     public ResponseEntity<List<ProjectRoleDto>> queryProjectRoles(@RequestBody QueryProjectRequest queryProjectRequest) {
-        return ResponseEntity.ok().body(projectService.queryProjectRoles(queryProjectRequest).stream()
-                .map(projectPermission -> conversionProjectRoleDto(projectPermission)).collect(Collectors.toList()));
+        List<ProjectRoleDto> projectRoleDtos = new ArrayList<>();
+        List<ProjectPermission> projectPermissions = projectService.queryProjectRoles(queryProjectRequest);
+        for (ProjectPermission projectPermission : projectPermissions) {
+            projectRoleDtos.add(conversionProjectRoleDto(projectPermission));
+        }
+        return ResponseEntity.ok().body(projectRoleDtos);
     }
 
     @PostMapping("/invite_members")
@@ -82,9 +90,12 @@ public class ProjectController {
         if (inviteMembersRequest.isEmpty()) {
             throw new BadRequestException();
         }
-
-        return ResponseEntity.ok().body(projectService.inviteMembers(inviteMembersRequest).stream()
-                .map(projectPermission -> conversionProjectRoleDto(projectPermission)).collect(Collectors.toList()));
+        List<ProjectRoleDto> projectRoleDtos = new ArrayList<>();
+        List<ProjectPermission> projectPermissions = projectService.inviteMembers(inviteMembersRequest);
+        for (ProjectPermission projectPermission : projectPermissions) {
+            projectRoleDtos.add(conversionProjectRoleDto(projectPermission));
+        }
+        return ResponseEntity.ok().body(projectRoleDtos);
     }
 
     @PostMapping("/validate_project_url")

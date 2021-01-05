@@ -1,6 +1,5 @@
 package edu.ntut.se1091.team1.pms.dto.request;
 
-import java.util.Collection;
 import java.util.List;
 
 public class AddProjectRequest {
@@ -12,9 +11,6 @@ public class AddProjectRequest {
     private List<RepositoryRequest> repositories;
 
     private String username;
-
-    public AddProjectRequest() {
-    }
 
     public String getName() {
         return name;

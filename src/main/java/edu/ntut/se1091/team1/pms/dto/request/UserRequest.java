@@ -8,9 +8,6 @@ public class UserRequest {
 
     private String password;
 
-    public UserRequest() {
-    }
-
     public String getEmail() {
         return email;
     }

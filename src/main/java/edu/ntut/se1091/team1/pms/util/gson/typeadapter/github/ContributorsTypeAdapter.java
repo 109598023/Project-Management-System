@@ -3,8 +3,6 @@ package edu.ntut.se1091.team1.pms.util.gson.typeadapter.github;
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import edu.ntut.se1091.team1.pms.util.gson.typeadapter.github.Author;
-import edu.ntut.se1091.team1.pms.util.gson.typeadapter.github.Contributor;
 
 import java.io.IOException;
 import java.time.Instant;
@@ -12,7 +10,6 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ContributorsTypeAdapter extends TypeAdapter<List<Contributor>> {

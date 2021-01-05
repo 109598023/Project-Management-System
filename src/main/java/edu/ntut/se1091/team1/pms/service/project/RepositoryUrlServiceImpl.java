@@ -6,7 +6,7 @@ import edu.ntut.se1091.team1.pms.util.repository.RepositorySonarQubeUrl;
 import edu.ntut.se1091.team1.pms.util.repository.RepositoryUrl;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
 @Service
@@ -15,7 +15,7 @@ public class RepositoryUrlServiceImpl implements RepositoryUrlService {
     private final Map<RepositoryType, RepositoryUrl> validateUrlMap;
 
     public RepositoryUrlServiceImpl() {
-        validateUrlMap = new HashMap<>();
+        validateUrlMap = new EnumMap<>(RepositoryType.class);
         setValidateUrlMap();
     }
 
