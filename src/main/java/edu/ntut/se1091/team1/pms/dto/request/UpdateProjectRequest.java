@@ -15,9 +15,6 @@ public class UpdateProjectRequest {
 
     private String username;
 
-    public UpdateProjectRequest() {
-    }
-
     public Long getId() {
         return id;
     }

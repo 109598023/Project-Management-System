@@ -8,9 +8,6 @@ public class Author {
 
     private String htmlUrl;
 
-    public Author() {
-    }
-
     public String getLogin() {
         return login;
     }

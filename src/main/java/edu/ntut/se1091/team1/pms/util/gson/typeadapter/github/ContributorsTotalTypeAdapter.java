@@ -20,9 +20,14 @@ public class ContributorsTotalTypeAdapter  extends ContributorsTypeAdapter {
         writer.endObject();
     }
 
-    private Contributor contributorsTotal(List<Contributor> contributors) throws IOException {
+    private Contributor contributorsTotal(List<Contributor> contributors) {
         List<String> weeks = contributors.get(0).getWeeks();
-        List<Integer> additionsTotal, deletionsTotal, commitsTotal, additions, deletions, commits;
+        List<Integer> additionsTotal;
+        List<Integer> deletionsTotal;
+        List<Integer>commitsTotal;
+        List<Integer> additions;
+        List<Integer> deletions;
+        List<Integer> commits;
         int size = weeks.size();
         additionsTotal = new ArrayList<>(Collections.nCopies(size, 0));
         deletionsTotal = new ArrayList<>(Collections.nCopies(size, 0));

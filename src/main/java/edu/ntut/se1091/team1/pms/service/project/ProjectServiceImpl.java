@@ -62,11 +62,13 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<Project> queryProjectList(QueryProjectRequest queryProjectRequest) {
-        List<Project> projects = List.of();
+        List<Project> projects = new ArrayList<>();
         Optional<User> userOptional = userService.queryUsername(queryProjectRequest.getUsername());
         if (userOptional.isPresent()) {
             List<ProjectPermission> projectPermissions = projectPermissionRepository.findByUser(userOptional.get());
-            projects = projectPermissions.stream().map(p -> p.getProject()).collect(Collectors.toList());
+            for (ProjectPermission projectPermission : projectPermissions) {
+                projects.add(projectPermission.getProject());
+            }
         }
         return projects;
     }
@@ -117,7 +119,10 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public List<ProjectPermission> queryProjectRoles(QueryProjectRequest queryProjectRequest) {
         Optional<Project> projectOptional = projectRepository.findById(queryProjectRequest.getId());
-        return projectPermissionRepository.findByProject(projectOptional.get());
+        if (projectOptional.isPresent()) {
+            return projectPermissionRepository.findByProject(projectOptional.get());
+        }
+        return List.of();
     }
 
     @Override

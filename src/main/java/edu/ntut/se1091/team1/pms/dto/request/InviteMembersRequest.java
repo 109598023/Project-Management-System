@@ -12,9 +12,6 @@ public class InviteMembersRequest {
 
     private String roleName;
 
-    public InviteMembersRequest() {
-    }
-
     public Long getProjectId() {
         return projectId;
     }

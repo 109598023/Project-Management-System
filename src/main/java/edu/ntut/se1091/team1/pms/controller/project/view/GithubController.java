@@ -28,8 +28,8 @@ public class GithubController {
     public ResponseEntity<String> punchCard(@RequestBody QueryProjectRequest queryProjectRequest) {
         return ResponseEntity.ok().body(githubService.queryPunchCard(queryProjectRequest));
     }
-    @PostMapping("/Issue")
-    public ResponseEntity<String> Issue(@RequestBody QueryProjectRequest queryProjectRequest) {
+    @PostMapping("/issue")
+    public ResponseEntity<String> issue(@RequestBody QueryProjectRequest queryProjectRequest) {
         return ResponseEntity.ok().body(githubService.queryIssue(queryProjectRequest));
     }
 }

@@ -4,9 +4,6 @@ public class RepositoryRequest {
 
     private String url;
 
-    public RepositoryRequest() {
-    }
-
     public String getUrl() {
         return url;
     }
